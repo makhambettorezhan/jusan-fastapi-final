@@ -8,6 +8,8 @@ app = FastAPI()
 class Item(BaseModel):
     element: str
 
+class Calculator(BaseModel):
+    expr: str
 
 elements = []
 
@@ -51,3 +53,27 @@ async def update_list(item: Item):
 @app.get("/list")
 async def get_list():
     return {"result": elements}
+
+@app.post("/calculator")
+async def calculator(calculator: Calculator):
+    expr = calculator.expr
+    arr = expr.split(',')
+    num1 = int(arr[0])
+    num2 = int(arr[2])
+    op = arr[1] # arithmetic operation
+    result = -1
+    if op == '+':
+        result = num1 + num2
+    elif op == '-':
+        result = num1 - num2
+    elif op == '*':
+        result = num1 * num2
+    elif op == '/':
+        if num2 == 0:
+            return {"error": "zerodiv"}
+        result = int(num1 / num2)
+    else:
+        return {"error": "invalid"}
+    
+    return {"result": result}
+    
