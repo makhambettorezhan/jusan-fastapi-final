@@ -1,8 +1,15 @@
 # main.py
 
 from fastapi import FastAPI, Request
+from pydantic import BaseModel
 
 app = FastAPI()
+
+class Item(BaseModel):
+    element: str
+
+
+elements = []
 
 @app.get("/")
 async def root():
@@ -35,3 +42,12 @@ async def fibonacci(n: int):
 async def reverse(request: Request):
     string = request.headers.get('string')
     return {"result": string[::-1]}
+
+@app.put("/list")
+async def update_list(item: Item):
+    elements.append(item.element)
+    return {"result": item.element}
+
+@app.get("/list")
+async def get_list():
+    return {"result": elements}
