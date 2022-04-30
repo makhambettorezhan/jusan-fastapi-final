@@ -1,6 +1,6 @@
 # main.py
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -70,10 +70,10 @@ async def calculator(calculator: Calculator):
         result = num1 * num2
     elif op == '/':
         if num2 == 0:
-            return {"error": "zerodiv"}
+            raise HTTPException(status_code=403, detail={"error": "zerodiv"})
         result = int(num1 / num2)
     else:
-        return {"error": "invalid"}
+        raise HTTPException(status_code=400, detail="Bad Request")
     
     return {"result": result}
     
