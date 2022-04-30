@@ -1,6 +1,6 @@
 # main.py
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 
 app = FastAPI()
 
@@ -13,4 +13,25 @@ async def sum_to_n(number: int):
     sum = 0
     for i in range(1,number):
         sum = sum + i
-    return {"message": f"The sum from 1 to {number} is {sum}"}
+    return {"result": sum}
+
+
+@app.get("/fibo/")
+async def fibonacci(n: int):
+    num1 = 0
+    num2 = 1
+    result = num1+num2
+    num1=num2
+    num2=result
+    count=0
+    for i in range(2, n):
+        result = num1+num2
+        num1=num2
+        num2=result
+    return {"result": num1}
+
+
+@app.post("/reverse")
+async def reverse(request: Request):
+    string = request.headers.get('string')
+    return {"result": string[::-1]}
