@@ -20,7 +20,7 @@ async def root():
 @app.get("/sum1n/{number}")
 async def sum_to_n(number: int):
     sum = 0
-    for i in range(1,number):
+    for i in range(1,number+1):
         sum = sum + i
     return {"result": sum}
 
