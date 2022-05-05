@@ -74,3 +74,14 @@ $ curl -X POST -d '{"expr": "1,+,1"}' -H 'Content-Type: application/json' http:/
 ```bash
 $ pytest -v
 ```
+
+## Dockerfile
+To build and run the docker on the localhost type the following commands:
+
+```bash
+$ sudo docker build -t jusan-fastapi-final .
+```
+
+```bash
+$ sudo docker run -d --name test -p 8000:8000 jusan-fastapi-final
+```
