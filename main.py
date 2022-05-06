@@ -29,11 +29,11 @@ async def sum_to_n(number: int):
 async def fibonacci(n: int):
     num1 = 0
     num2 = 1
-    result = num1+num2
-    num1=num2
-    num2=result
+    #result = num1+num2
+    #num1=num2
+    #um2=result
     count=0
-    for i in range(2, n):
+    for i in range(1, n):
         result = num1+num2
         num1=num2
         num2=result
@@ -49,6 +49,23 @@ async def reverse(request: Request):
 async def update_list(item: Item):
     elements.append(item.element)
     return {"result": item.element}
+
+@app.post("/elementsCondition")
+async def conditionAppend(item: Item):
+    element = item.element
+    if len(element) >= 3 and element[0].isupper():
+        elements.append(element)
+    else:
+        raise HTTPException(status_code=400, detail='Bad Request')
+    return {"elements": elements}
+
+@app.get("/element_contains")
+async def element_contains(string: str):
+    arr = []
+    for element in elements:
+        if string.lower() in element.lower():
+            arr.append(element)
+    return {f"elements that have {string}": arr}
 
 @app.get("/list")
 async def get_list():
